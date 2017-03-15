@@ -20,6 +20,55 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func doGetJson(_ sender: UIButton) {
+        self.makeGetCall()
+    }
+
+    private func makeGetCall() {
+        // Set up the URL request
+        let todoEndpoint: String = "http://localhost:8080/json"
+        guard let url = URL(string: todoEndpoint) else {
+            print("Error: cannot create URL")
+            return
+        }
+        let urlRequest = URLRequest(url: url)
+        
+        // set up the session
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        
+        // make the request
+        let task = session.dataTask(with: urlRequest) {
+            (data, response, error) in
+            // check for any errors
+            guard error == nil else {
+                print("error calling GET on /todos/1")
+                print(error!)
+                return
+            }
+            // make sure we got data
+            guard let responseData = data else {
+                print("Error: did not receive data")
+                return
+            }
+            // parse the result as JSON, since that's what the API provides
+            do {
+                guard let todo = try JSONSerialization.jsonObject(with: responseData, options: []) as? [[String: AnyObject]] else {
+                    print("error trying to convert data to JSON")
+                    return
+                }
+                //print("The todo is: " + todo.description)
+                for person in todo {
+                    print(person["password"]!)
+                }
+            } catch  {
+                print("error trying to convert data to JSON")
+                return
+            }
+        }
+        
+        task.resume()
+    }
 
 }
 
