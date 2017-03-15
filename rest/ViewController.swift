@@ -8,6 +8,11 @@
 
 import UIKit
 
+func tes(a:[String]) {
+    
+    print("a")
+}
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -21,11 +26,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func doGetJson(_ sender: UIButton) {
-        self.makeGetAllCall()
+        self.makeGetAllCall(comp: tes)
     }
 
-    private func makeGetAllCall() {
+    private func makeGetAllCall(comp: @escaping ([String])->()) {
         // Set up the URL request
+        
         let todoEndpoint: String = "http://localhost:8080/json/all_data/"
         guard let url = URL(string: todoEndpoint) else {
             print("Error: cannot create URL")
@@ -61,6 +67,7 @@ class ViewController: UIViewController {
                 for person in todo {
                     print(person["password"]!)
                 }
+                comp(["AAA"])
             } catch  {
                 print("error trying to convert data to JSON")
                 return
