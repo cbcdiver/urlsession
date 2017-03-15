@@ -21,12 +21,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func doGetJson(_ sender: UIButton) {
-        self.makeGetCall()
+        self.makeGetAllCall()
     }
 
-    private func makeGetCall() {
+    private func makeGetAllCall() {
         // Set up the URL request
-        let todoEndpoint: String = "http://localhost:8080/json"
+        let todoEndpoint: String = "http://localhost:8080/json/all_data/"
         guard let url = URL(string: todoEndpoint) else {
             print("Error: cannot create URL")
             return
