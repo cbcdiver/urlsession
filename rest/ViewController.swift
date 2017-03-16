@@ -59,12 +59,15 @@ class ViewController: UIViewController {
             }
             // parse the result as JSON, since that's what the API provides
             do {
-                guard let todo = try JSONSerialization.jsonObject(with: responseData, options: []) as? [[String: AnyObject]] else {
+                guard let userList = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: AnyObject] else {
                     print("error trying to convert data to JSON")
                     return
                 }
                 //print("The todo is: " + todo.description)
-                for person in todo {
+                
+                let people = userList["usernames"] as! [[String:Any]]
+                
+                for person in people {
                     print(person["password"]!)
                 }
                 comp(["AAA"])
